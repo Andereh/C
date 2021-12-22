@@ -1,11 +1,5 @@
 #include <stdio.h>
-
-int len(int n)
-{
-    return (int)(sizeof(n)/sizeof(n[0]));
-}
-
-
+// No se puede crear una funcion segura que mida arrays 
 int main()
 {
     int base [] = {5, 20, 15, -20, -20};
@@ -15,9 +9,5 @@ int main()
     
     results[0] = base[0];
 
-    for(int i = 1; i < len(base); i++)
-    {
-        restos[i] = results[i-1];
-    }
     return 0;
 }
