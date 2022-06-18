@@ -1,12 +1,8 @@
 #include <stdio.h>
+#include <math.h>
 
 int base, expo;
 float res;
-
-int abs(int n) {
-	if (n < 0) return (-1 * n);
-	return n;
-}
 
 int main() {
 	printf("Programa que dado una base y un exponente te calcula el resultado\n\n");
@@ -16,15 +12,11 @@ int main() {
 	printf("Ingrese el exponente: ");
 	scanf("%d", &expo);
 
-	res = 1;
-
-	for (int i = 0; i < abs(expo); i++) {
-		res *= base;
-	}
 	
 	if (expo < 1) {
-		res = 1 / res;
-	}
+		expo *= -1;
+		res = 1 / pow(base, expo);
+	} else res = pow(base, expo);
 
 	printf("El resultado es: %f\n", res);
 
