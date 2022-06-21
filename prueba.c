@@ -11,7 +11,7 @@ int main(){
 	int opcion, continuar = 1;
 
 	while (1) {
-		system("clear");
+		system("clear"); // tambien cambia la linea 56, 92, 115
 		printf("\nSeleccione una de las siguientes opciones\n");
 		printf("\n\t1. Calcular una potencia");
 		printf("\n\t2. Descomponer numero");
@@ -78,7 +78,6 @@ void potencia (void) {
 
 		printf("\n\nOpcion: ");
 		scanf("%d", &opcion);
-		system("clear");
 		
 	} while(opcion == 1);
 	
