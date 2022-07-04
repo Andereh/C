@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,22 +7,20 @@
  * \todo Todo description here
  */
 void addSpaces(int a);
-void noRepeatedNum(int*, int*);
+bool hasRepeatedNum(int*, int*, int);
 
 int main(int argc, char* argv[])
 {
-
-    /*int** array;*/
-
     int  len;
-    int  aux;
-    int  sum = 0;
-    int  m   = 0;
+    int  sum     = 0;
+    int  initial = 0;
     int  sumCols;
     int  sumRows;
     int  leftDiagonal  = 0;
     int  rightDiagonal = 0;
     int* nums;
+    int  aux;
+    bool isMagic = true;
 
     printf("Ingrese la dimension del cuadrado: ");
     scanf("%d", &len);
@@ -29,31 +28,24 @@ int main(int argc, char* argv[])
     int array[len][len];
     nums = (int*)calloc(len, sizeof(int));
 
-    /*array = calloc(len, sizeof *array);*/
-    /*for (int i = 0; i < len; i++)*/
-    /*{*/
-    /*array[i] = calloc(len, sizeof *(array[i]));*/
-    /*}*/
-
     printf("Ingrese los datos\n");
     for (int i = 0; i < len; i++)
     {
         sum = 0;
         for (int j = 0; j < len; j++)
         {
-            printf("valor [%d][%d]: ", i, j);
-            scanf("%d", &array[i][j]);
-            nums[i * len + j] = array[i][j];
+            printf("\tvalor [%d][%d]: ", i, j);
+            scanf("%d", &aux);
+            *(nums + i * len + j) = aux;
 
-            /*printf("%d\n", (int)((*array) + j + i * len));*/
-            /*printf("%d\n", (int)&array[i][j]);*/
-            if (i < 1)
-                m += aux;
+            if (hasRepeatedNum(nums, (nums + i * len + j), aux))
+                isMagic = false; // Por si un numero ya se introdujo
+
+            if (i < 1) // la cuenta inicial
+                initial += aux;
         }
         printf("\n");
     }
-    /*printf("%d<<\n", ((int)(array[len - 1][len - 1]) - (int)(array[0][0])));*/
-    /*printf("%d<<<-\n", *((array[1]) + 1));*/
 
     for (int i = 0; i < len; i++)
     {
@@ -61,19 +53,30 @@ int main(int argc, char* argv[])
         sumRows = 0;
         for (int j = 0; j < len; j++)
         {
-            sumCols += array[i][j];
-            sumRows += array[j][i];
+            sumCols += *(nums + (i * len) + j); // suma de columnas
+            sumRows += *(nums + (j * len) + i); // suma de filas
         }
-        leftDiagonal += array[i][i];
-        rightDiagonal += array[i][2 - i];
+        leftDiagonal +=
+            *(nums + (i * len) + i); // diagonal de izquierda a derecha
+        rightDiagonal +=
+            *(nums + (i * len) + ((len - 1) - i)); // de derecha a izquierda
 
-        if (sumCols != m || sumRows != m)
-            printf("Oops\n");
-        else
-            printf("Ook\n");
+        printf("sumCols: %d<<<\n", sumCols);
+        if (sumCols != initial || sumRows != initial)
+        {
+            isMagic = false;
+            break;
+        }
     }
-    printf("%d\n", leftDiagonal);
-    printf("%d\n", rightDiagonal);
+
+    if (leftDiagonal != initial || rightDiagonal != initial)
+        isMagic = false;
+
+    if (isMagic)
+        printf("Al fin carajo\n");
+    else
+        printf("No pues no\n");
+
     return 0;
 }
 
@@ -90,4 +93,14 @@ void addSpaces(int a)
     }
 }
 
-void noRepeatedNum(int* ptr, int* end) {}
+bool hasRepeatedNum(int* ptr, int* end, int n)
+{
+    while (ptr < end)
+    {
+        if (*ptr == n)
+            return true;
+        ptr++;
+    }
+
+    return false;
+}
