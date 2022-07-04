@@ -61,7 +61,6 @@ int main(int argc, char* argv[])
         rightDiagonal +=
             *(nums + (i * len) + ((len - 1) - i)); // de derecha a izquierda
 
-        printf("sumCols: %d<<<\n", sumCols);
         if (sumCols != initial || sumRows != initial)
         {
             isMagic = false;
